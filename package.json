@@ -1,0 +1,33 @@
+{
+  "name": "veralink-smartshield",
+  "version": "1.0.0",
+  "description": "Web-server to verify URLs before actually redirecting the user to the intended website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisrowley/veralink-smartshield.git"
+  },
+  "keywords": [
+    "phishing",
+    "prevention",
+    "URL",
+    "verify"
+  ],
+  "author": "Luis De Benito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luisrowley/veralink-smartshield/issues"
+  },
+  "homepage": "https://github.com/luisrowley/veralink-smartshield#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "request": "^2.88.2",
+    "uuid": "^9.0.0"
+  }
+}
