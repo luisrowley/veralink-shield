@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const verifyRouter = require('./verifier/verify');
+const verifyRouter = require('./src/verifier/verify');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
