@@ -5,7 +5,7 @@ const request = require('request');
 const fs = require('fs');
 
 const VERALINK_PRIVATE_KEY = fs.readFileSync('private.key');
-const REMOTE_ENDPOINT_URL = '<remote-endpoint-url>';
+const REMOTE_ENDPOINT_URL = 'http://localhost:3001/veralink';
 
 router.get('/', (req, res) => {
   const urlToVerify = req.query.url;
@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
     }
   }, (error, response, body) => {
     if (error || response.statusCode !== 200) {
-      console.log('Failed to verify URL signature');
+      console.log('Failed to verify URL signature' + error);
       res.status(500).send('Failed to verify URL signature');
       return;
     }
