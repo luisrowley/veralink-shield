@@ -5,19 +5,20 @@ const request = require('request');
 const fs = require('fs');
 
 const VERALINK_PRIVATE_KEY = fs.readFileSync('private.key');
-const REMOTE_ENDPOINT_URL = 'http://localhost:3001/veralink';
+const REMOTE_ENDPOINT_URI = '/veralink';
 
 router.get('/', (req, res) => {
   const urlToVerify = req.query.url;
+  const REMOTE_SDK_URL = urlToVerify + REMOTE_ENDPOINT_URI;
   const signature = crypto.createSign('RSA-SHA256');
   signature.write(urlToVerify);
   signature.end();
 
-  console.log(urlToVerify);
+  console.log(urlToVerify, REMOTE_SDK_URL);
 
   const signatureBase64 = signature.sign(VERALINK_PRIVATE_KEY, 'base64');
 
-  request.post(REMOTE_ENDPOINT_URL, {
+  request.post(REMOTE_SDK_URL, {
     form: {
       url: urlToVerify,
       signature: signatureBase64
