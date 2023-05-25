@@ -10,6 +10,12 @@ const REMOTE_ENDPOINT_URI = '/veralink';
 router.get('/', (req, res) => {
   const urlToVerify = req.query.url;
   const REMOTE_SDK_URL = urlToVerify + REMOTE_ENDPOINT_URI;
+
+  if (!urlToVerify) {
+    res.status(400).send('Bad Request: missing url parameter.');
+    return;
+  }
+
   const signature = crypto.createSign('RSA-SHA256');
   signature.write(urlToVerify);
   signature.end();
@@ -25,7 +31,7 @@ router.get('/', (req, res) => {
     }
   }, (error, response, body) => {
     if (error || response.statusCode !== 200) {
-      console.log('Failed to verify URL signature' + error);
+      console.log('Failed to verify URL signature' + error, signature);
       res.status(500).send('Failed to verify URL signature');
       return;
     }
