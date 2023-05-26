@@ -37,6 +37,9 @@ router.get('/', (req, res) => {
 
   // send verification to remote SDK
   if (mobileReq) {
+    // if request contains channelID, send validate req to SDK
+    // validate OK? -> resolve matching channelID and redirect
+
     request.post(REMOTE_SDK_URL, {
       form: {
         url: urlToVerify,
@@ -59,7 +62,8 @@ router.get('/', (req, res) => {
       res.redirect(urlToVerify);
     });
   } else {
-    // send user to QR code page
+    // generate page with QR code <url + channelID>
+    // connect to messaging channel and wait for message from mobile app
   }
 });
 
