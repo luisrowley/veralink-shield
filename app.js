@@ -2,8 +2,8 @@ const express = require('express');
 
 const app = express();
 const bodyParser = require('body-parser');
-const verifyRouter = require('./src/verifier/verify');
-const keyGenRouter = require('./src/key-generator/key-generator');
+const verifyRouter = require('./src/api/verifier/verify');
+const keyGenRouter = require('./src/api/key-generator/key-generator');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

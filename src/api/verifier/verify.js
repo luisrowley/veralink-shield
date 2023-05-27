@@ -7,7 +7,7 @@ const express = require('express');
 const crypto = require('crypto');
 const request = require('request');
 const fs = require('fs');
-const isValidHttpUrl = require('../utils/data-validators');
+const isValidHttpUrl = require('../../utils/data-validators');
 
 const router = express.Router();
 
