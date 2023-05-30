@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const clients = new Map();
+const clientsByUid = {};
 
 const startWebsocketServer = () => {
   wss.on('connection', (ws) => {
@@ -15,11 +16,26 @@ const startWebsocketServer = () => {
 
     // connection is up, let's add a simple simple event
     ws.on('message', (message) => {
-      const metadata = { uuid: message.uuid, redirectUrl: message.redirectUrl };
-      clients.set(ws, metadata);
+      const decodedMsg = JSON.parse(message);
+
+      if (decodedMsg.create) {
+        // WRITE OPERATION: request comes from bridge
+        const incomingMetadata = { uid: decodedMsg.uid, redirectUrl: decodedMsg.url };
+        clients.set(ws, incomingMetadata);
+        clientsByUid[decodedMsg.uid] = ws;
+      } else {
+        // READ OPERATION: req comes from scanner app
+        const userWsConnection = clientsByUid[decodedMsg.uid];
+        const storedMetadata = clients.get(userWsConnection);
+        if (storedMetadata.redirectUrl) {
+          // if redirect URL for UID, tell CLIENT
+        } else {
+          // UIDs not matching, send error to CLIENT
+        }
+      }
       // log the received message and send it back to the client
-      console.log('received: %s', message);
-      ws.send(`Hello, you sent -> ${message}`);
+      console.log('received: %s', decodedMsg.uid);
+      ws.send(JSON.stringify({ msg: `Hello, you sent -> ${message}` }));
     });
   });
 
@@ -33,4 +49,4 @@ const startWebsocketServer = () => {
 
 const checkWebSocketUp = (_wss) => _wss.readyState === WebSocket.OPEN;
 
-module.exports = { startWebsocketServer, checkWebSocketUp };
+module.exports = { startWebsocketServer, checkWebSocketUp, wss };
