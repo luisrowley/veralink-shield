@@ -27,15 +27,23 @@ const startWebsocketServer = () => {
         // READ OPERATION: req comes from scanner app
         const userWsConnection = clientsByUid[decodedMsg.uid];
         const storedMetadata = clients.get(userWsConnection);
-        if (storedMetadata.redirectUrl) {
+
+        if (storedMetadata && storedMetadata.redirectUrl) {
           // if redirect URL for UID, tell CLIENT
+          // console.log('redirect URL: %s', storedMetadata.redirectUrl);
+          userWsConnection.send(JSON.stringify({
+            redirectUrl: storedMetadata.redirectUrl,
+            uid: decodedMsg.uid,
+          }));
         } else {
           // UIDs not matching, send error to CLIENT
+          // console.log('redirect error:');
+          userWsConnection.send(JSON.stringify({ error: 'redirect error' }));
         }
       }
       // log the received message and send it back to the client
-      console.log('received: %s', decodedMsg.uid);
-      ws.send(JSON.stringify({ msg: `Hello, you sent -> ${message}` }));
+      // console.log('received: %s', decodedMsg.uid);
+      ws.send(JSON.stringify({ msg: `Server:: received message -> ${message}` }));
     });
   });
 

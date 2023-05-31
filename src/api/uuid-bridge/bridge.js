@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const WebSocket = require('ws');
 
 const url = 'ws://localhost:8999';
-const connection = new WebSocket(url);
+// const connection = new WebSocket(url);
 
 const router = express.Router();
 
@@ -23,13 +23,13 @@ router.get('/', async (req, res) => {
     // Generate the QR code
     const qrCode = await qrcode.toDataURL(uuid);
 
-    connection.send(payload);
+    // connection.send(payload);
 
     // Get the absolute path to the template file
     const templatePath = path.join(__dirname, 'qrcode.ejs');
 
     // Render the EJS template with the updated UUID and QR code
-    const htmlTemplate = await ejs.renderFile(templatePath, { qrCode });
+    const htmlTemplate = await ejs.renderFile(templatePath, { qrCode, uuid, urlToVerify });
 
     // Send the HTML template as a response
     res.send(htmlTemplate);

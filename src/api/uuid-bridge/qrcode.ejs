@@ -6,3 +6,37 @@
     <img src="<%= qrCode %>" alt="QR Code">
   </body>
 </html>
+
+<script>
+    const payload = JSON.stringify({ uid: '<%= uuid %>', url: '<%= urlToVerify %>', create: true });
+
+    const connection = new WebSocket('ws://localhost:8999');
+  
+    connection.addEventListener('message', function(event) {
+      // Handle received messages here
+      console.log('Client:: received message:', event.data);
+      const uuid = '<%= uuid %>';
+      const decodedMsg = JSON.parse(event.data);
+      // Match UUIDs client side and redirect
+      if(decodedMsg.redirectUrl && uuid === decodedMsg.uid) {
+        window.location.href = decodedMsg.redirectUrl;
+      }
+    });
+  
+    connection.addEventListener('open', function() {
+      // Connection is open, you can send messages if needed
+      console.log('Client:: WebSocket connection opened');
+      connection.send(payload);
+    });
+  
+    connection.addEventListener('close', function() {
+      // Connection is closed
+      console.log('Client:: WebSocket connection closed');
+    });
+  
+    connection.addEventListener('error', function(error) {
+      // Handle any errors that occur
+      console.error('Client:: WebSocket error:', error);
+    });
+  </script>
+  
