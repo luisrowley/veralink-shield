@@ -3,10 +3,6 @@ const qrcode = require('qrcode');
 const path = require('path');
 const ejs = require('ejs');
 const { v4: uuidv4 } = require('uuid');
-const WebSocket = require('ws');
-
-const url = 'ws://localhost:8999';
-// const connection = new WebSocket(url);
 
 const router = express.Router();
 
@@ -17,7 +13,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const uuid = uuidv4();
   const urlToVerify = req.query.url;
-  const payload = JSON.stringify({ uid: uuid, url: urlToVerify, create: true });
 
   try {
     // Generate the QR code
