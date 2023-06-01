@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
+const PROXY_SERVER = 'http://localhost:3000';
 
 /** :: TODO ::
  * create dedicated client for real-time
@@ -24,7 +25,9 @@ router.get('/', async (req, res) => {
     const templatePath = path.join(__dirname, 'qrcode.ejs');
 
     // Render the EJS template with the updated UUID and QR code
-    const htmlTemplate = await ejs.renderFile(templatePath, { qrCode, uuid, urlToVerify });
+    const htmlTemplate = await ejs.renderFile(templatePath, {
+      qrCode, uuid, urlToVerify, PROXY_SERVER,
+    });
 
     // Send the HTML template as a response
     res.send(htmlTemplate);

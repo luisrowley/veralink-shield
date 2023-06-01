@@ -12,7 +12,7 @@ const clientsByUid = {};
 
 const startWebsocketServer = () => {
   wss.on('connection', (ws) => {
-    ws.send('WebSocket connection initialized');
+    ws.send(JSON.stringify({ msg: 'WebSocket connection initialized' }));
 
     // connection is up, let's add a simple simple event
     ws.on('message', (message) => {

@@ -10,6 +10,7 @@
 <script>
     const payload = JSON.stringify({ uid: '<%= uuid %>', url: '<%= urlToVerify %>', create: true });
 
+    // TODO: switch to https using SSL crt
     const connection = new WebSocket('ws://localhost:8999');
   
     connection.addEventListener('message', function(event) {
@@ -26,6 +27,7 @@
     connection.addEventListener('open', function() {
       // Connection is open, you can send messages if needed
       console.log('Client:: WebSocket connection opened');
+      //verifyUrl('<%= urlToVerify %>');
       connection.send(payload);
     });
   
@@ -38,5 +40,23 @@
       // Handle any errors that occur
       console.error('Client:: WebSocket error:', error);
     });
+
+    async function verifyUrl(urlToVerify) {
+        const verificationServerURL = '<%= PROXY_SERVER %>';
+        const url = `${verificationServerURL}/verify?url=${encodeURIComponent(urlToVerify)}`;
+
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+            const data = await response.json();
+            // Process the response data here
+            console.log(data);
+            } else {
+            console.error('Error:', response.status);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
   </script>
   

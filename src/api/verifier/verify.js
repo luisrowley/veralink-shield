@@ -54,7 +54,10 @@ router.get('/', (req, res) => {
       return;
     }
 
-    res.redirect(urlToVerify);
+    // return redirect response to client
+    // res.redirect(urlToVerify);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(JSON.stringify({ urlToRedirect: `${urlToVerify}` }));
   });
 });
 
