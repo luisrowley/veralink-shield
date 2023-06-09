@@ -13,7 +13,7 @@
     // TODO: switch to https using SSL crt
     const connection = new WebSocket('ws://localhost:8999');
 
-    // pre-flight request for validating redirection URL
+    // pre-flight request for validating redirection URL ahead of time
     let verifiedRedirectURL = {};
     verifyUrl('<%= urlToVerify %>').then((response) => {
       verifiedRedirectURL = response;
