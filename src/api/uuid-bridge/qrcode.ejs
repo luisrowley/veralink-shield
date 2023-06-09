@@ -14,9 +14,9 @@
     const connection = new WebSocket('ws://localhost:8999');
 
     // pre-flight request for validating redirection URL ahead of time
-    let verifiedRedirectURL = {};
+    let verifiedRedirectURL = '';
     verifyUrl('<%= urlToVerify %>').then((response) => {
-      verifiedRedirectURL = response;
+      verifiedRedirectURL = response.urlToRedirect;
     });
   
     connection.addEventListener('message', function(event) {
@@ -24,7 +24,7 @@
       console.log('Client:: received message:', event.data);
       const uuid = '<%= uuid %>';
       const decodedMsg = JSON.parse(event.data);
-      const decodedVerifiedURL = verifiedRedirectURL.urlToRedirect;
+      const decodedVerifiedURL = verifiedRedirectURL;
 
       // Match UUIDs client side and redirect
       if (decodedMsg.redirectUrl &&
