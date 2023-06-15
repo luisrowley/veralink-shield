@@ -39,7 +39,10 @@ const startWebsocketServer = () => {
             }));
           }
         } else {
-          ws.send(JSON.stringify({ error: `Error: no active connection for UID ${decodedMsg.uid}` }));
+          ws.send(JSON.stringify({
+            error: 'Error: no active connection for UID',
+            uid: decodedMsg.uid,
+          }));
         }
       }
       // log the received message and send it back to the client

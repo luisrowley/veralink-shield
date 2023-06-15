@@ -3,10 +3,11 @@
     <title>QR Code Page</title>
   </head>
   <body>
-    <img src="<%= qrCode %>" alt="QR Code">
+    <div id="qrCodeContainer">
+      <img src="<%= qrCode %>" alt="QR Code">
+    </div>
   </body>
 </html>
-
 <script>
     const payload = JSON.stringify({ uid: '<%= uuid %>', url: '<%= urlToVerify %>', create: true });
 
@@ -16,7 +17,7 @@
     // pre-flight request for validating redirection URL ahead of time
     let verifiedRedirectURL = '';
     verifyUrl('<%= urlToVerify %>').then((response) => {
-      verifiedRedirectURL = response.urlToRedirect;
+      verifiedRedirectURL = response?.urlToRedirect;
     });
   
     connection.addEventListener('message', function(event) {
@@ -31,6 +32,18 @@
           decodedVerifiedURL &&
           uuid === decodedMsg.uid) {
         window.location.href = decodedMsg.redirectUrl;
+      }
+      // UUIDs match but URL not verified
+      else if (uuid === decodedMsg.uid && !decodedVerifiedURL) {
+        const qrCodeContainer = document.getElementById('qrCodeContainer');
+        if (qrCodeContainer) {
+          qrCodeContainer.innerHTML = `
+            <div id="warningContainer">
+              <span id="warningIcon">&#9888;</span>
+              <p id="warningMessage">The page could not be verified against Phishing</p>
+            </div>
+          `;
+        }
       }
     });
   
@@ -57,13 +70,15 @@
         try {
             const response = await fetch(url);
             if (response.ok) {
-            const data = await response.json();
-            // Process the response data here
-            return data;
-            } else {
-            console.error('Error:', response.status);
+              const data = await response.json();
+              // Process the response data here
+              return data;
+            }
+            if (response.status === 404) {
+              console.warn(response.status, response.statusText);
             }
         } catch (error) {
+          if (error.status !== 404)
             console.error('Error:', error);
         }
       return null;
