@@ -44,12 +44,12 @@ router.get('/', (req, res) => {
       signature: signatureBase64,
     },
   }, (error, response, body) => {
-    if (response.statusCode === 404) {
+    if (response?.statusCode === 404) {
       res.status(404).send('Remote verification endpoint not found.');
       return;
     }
 
-    if (error || response.statusCode !== 200) {
+    if (error || response?.statusCode !== 200) {
       res.status(500).send('Failed to verify URL signature');
       return;
     }
