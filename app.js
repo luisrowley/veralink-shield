@@ -10,7 +10,7 @@ const ws = require('./src/api/uuid-bridge/ws-server');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/bridge', bridgeRouter);
+app.use('/', bridgeRouter);
 app.use('/verify', verifyRouter);
 app.use('/key-generator', keyGenRouter);
 
