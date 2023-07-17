@@ -19,8 +19,6 @@ router.get('/', async (req, res) => {
     // Generate the QR code
     const qrCode = await qrcode.toDataURL(uuid);
 
-    // connection.send(payload);
-
     // Get the absolute path to the template file
     const templatePath = path.join(__dirname, 'qrcode.ejs');
 
