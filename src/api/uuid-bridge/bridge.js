@@ -5,7 +5,7 @@ const ejs = require('ejs');
 const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
-const PROXY_SERVER = 'http://localhost:3000';
+const PROXY_SERVER = process.env.PROXY_URL;
 
 /** :: TODO ::
  * create dedicated client for real-time

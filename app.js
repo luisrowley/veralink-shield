@@ -1,4 +1,4 @@
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+require('dotenv').config({ path: `env/.env.${process.env.NODE_ENV}` });
 const express = require('express');
 
 const app = express();
@@ -17,6 +17,7 @@ app.use('/key-generator', keyGenRouter);
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
+  console.log(process.env.PROXY_URL);
 });
 
 ws.startWebsocketServer();

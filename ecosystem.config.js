@@ -3,8 +3,11 @@ module.exports = {
     {
       name: 'veralink-smartshield',
       script: 'app.js',
-      env: {
-        NODE_ENV: 'production',
+      env_production: {
+        NODE_ENV: 'prod',
+      },
+      env_development: {
+        NODE_ENV: 'dev',
       },
     },
   ],
