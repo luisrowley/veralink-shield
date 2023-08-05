@@ -17,7 +17,6 @@ app.use('/key-generator', keyGenRouter);
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
-  console.log(process.env.PROXY_URL);
 });
 
 ws.startWebsocketServer();
