@@ -1,11 +1,25 @@
+const fs = require('fs');
+const https = require('https');
 const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
 
 const app = express();
-// TODO: switch to https using SSL crt
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+let wss;
+let server;
+
+if (process.env.PROXY_SCHEMA === 'https') {
+// Load SSL/TLS certificate and key files
+  const serverConfig = {
+    cert: fs.readFileSync(process.env.SSL_CERTIFICATE_FILE),
+    key: fs.readFileSync(process.env.SSL_CERTIFICATE_KEY_FILE),
+  };
+  server = https.createServer(serverConfig, app);
+  wss = new WebSocket.Server({ server });
+} else {
+  server = http.createServer(app);
+  wss = new WebSocket.Server({ server });
+}
 
 const clients = new Map();
 const clientsByUid = {};
@@ -14,7 +28,7 @@ const startWebsocketServer = () => {
   wss.on('connection', (ws) => {
     ws.send(JSON.stringify({ msg: 'WebSocket connection initialized' }));
 
-    // connection is up, let's add a simple simple event
+    // connection up
     ws.on('message', (message) => {
       const decodedMsg = JSON.parse(message);
 
