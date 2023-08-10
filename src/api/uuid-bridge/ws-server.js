@@ -46,7 +46,6 @@ const startWebsocketServer = () => {
 
           if (storedMetadata && storedMetadata.redirectUrl) {
             // if redirect URL for UID, tell CLIENT
-            // console.log('redirect URL: %s', storedMetadata.redirectUrl);
             userWsConnection.send(JSON.stringify({
               redirectUrl: storedMetadata.redirectUrl,
               uid: decodedMsg.uid,
@@ -60,7 +59,6 @@ const startWebsocketServer = () => {
         }
       }
       // log the received message and send it back to the client
-      // console.log('received: %s', decodedMsg.uid);
       ws.send(JSON.stringify({ msg: `Server:: received message -> ${message}` }));
     });
   });
