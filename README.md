@@ -38,4 +38,4 @@ pm2 start ecosystem.config.js --env development
 - For testing locally using the SDK server, the URL would be:
 **`http://localhost:3000/?url=http://localhost:3001`**
 
-- Finally, you would need to comile and run the [Mobile app verifier](https://github.com/luisrowley/veralink-smartshield-app) and scan the QR code you will see on screen.
+- Finally, you would need to compile and run the [Mobile app verifier](https://github.com/luisrowley/veralink-smartshield-app) and scan the QR code you will see on screen.
